@@ -19,7 +19,7 @@ messaging.peerSocket.onmessage = evt => {
   if (evt.data.key === "code" && evt.data.newValue) {
     let code = evt.data.newValue;
     console.log("This is the code: " + code);
-    let bruh = grabToken(code);
+    let bruh = grabToken(code.access_token);
     console.log("Success " + bruh);
   } 
 };

@@ -24,3 +24,21 @@ export const grabToken = async function (code) {
         })
 
 }
+
+export const getUser = async function (token) {
+
+    const accessParams = {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+        }
+    }
+
+    return await fetch('https://api.spotify.com/v1/me', accessParams)
+        .then(function(data) {
+            return data.json();
+        }).catch(function(err) {
+            console.log("error" + err);
+        })
+
+}
