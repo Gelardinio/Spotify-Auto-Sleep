@@ -36,7 +36,28 @@ export const getUser = async function (token) {
 
     return await fetch('https://api.spotify.com/v1/me', accessParams)
         .then(function(data) {
-            return data.json();
+            return data.text();
+        }).catch(function(err) {
+            console.log("error" + err);
+        })
+
+}
+
+export const pause = async function (token) {
+
+    const accessParams = {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json',
+        }
+    }
+
+    return await fetch('https://api.spotify.com/v1/me/player/pause', accessParams)
+        .then(function(data) {
+            console.log("DONE " + data.status);
+            return data.status;
         }).catch(function(err) {
             console.log("error" + err);
         })
