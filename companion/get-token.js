@@ -25,28 +25,10 @@ export const grabToken = async function (code) {
 
 }
 
-export const getUser = async function (token) {
+export const getter = async function (token, method, link) {
 
     const accessParams = {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + token,
-        }
-    }
-
-    return await fetch('https://api.spotify.com/v1/me', accessParams)
-        .then(function(data) {
-            return data.text();
-        }).catch(function(err) {
-            console.log("error" + err);
-        })
-
-}
-
-export const pause = async function (token) {
-
-    const accessParams = {
-        method: 'PUT',
+        method: method,
         headers: {
             'Accept': 'application/json',
             'Authorization': 'Bearer ' + token,
@@ -54,12 +36,13 @@ export const pause = async function (token) {
         }
     }
 
-    return await fetch('https://api.spotify.com/v1/me/player/pause', accessParams)
-        .then(function(data) {
-            console.log("DONE " + data.status);
-            return data.status;
-        }).catch(function(err) {
-            console.log("error" + err);
-        })
+    let resp = await fetch('https://api.spotify.com/v1/me' + link, accessParams)
+
+    if (method == "GET") {
+        return resp.json();
+    } else if (method == "PUT") {
+        return resp.status;
+    }
 
 }
+

@@ -1,8 +1,6 @@
 import * as messaging from "messaging";
 import { settingsStorage } from "settings";
-import {grabToken, pause} from "../companion/get-token";
-import {getUser} from "../companion/get-token";
-import {pause} from "../companion/get-token";
+import {grabToken, getter} from "../companion/get-token";
 
 // Message socket opens
 messaging.peerSocket.onopen = () => {
@@ -28,8 +26,10 @@ settingsStorage.onchange = async (evt) => {
   if (evt.key === "code" && evt.newValue) {
     let code = evt.newValue;
     let token = await grabToken(code);
-    let pauser = await pause(token.access_token);
+    let pauser = await getter(token.access_token, "PUT", "/player/pause");
     console.log(pauser);
+    let user = await getter(token.access_token, "GET", "");
+    console.log(user);
   }
 }
 
