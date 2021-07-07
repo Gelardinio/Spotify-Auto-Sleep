@@ -18,8 +18,8 @@ function mySettings(props) {
           scope={scopes}
           onReturn={(data) => {
             console.log('bruh ' + data.code)
-            props.settingsStorage.setItem('code', data.code)
-            props.settingsStorage.setItem('state', data.state)
+            props.settingsStorage.setItem('code', data.code);
+            props.settingsStorage.setItem('rToken', '');
           }}
         />
         <Toggle

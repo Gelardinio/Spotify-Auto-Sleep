@@ -26,6 +26,12 @@ settingsStorage.onchange = async (evt) => {
   if (evt.key === "code" && evt.newValue) {
     let code = evt.newValue;
     let token = await grabToken(code);
+    settingsStorage.setItem('rToken', token.refresh_token);
+    let data = {
+      key: "rToken",
+      newValue: token.refresh_token
+    }
+    sendVal(data);
     let pauser = await getter(token.access_token, "PUT", "/player/pause");
     console.log(pauser);
     let user = await getter(token.access_token, "GET", "");

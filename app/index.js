@@ -22,6 +22,10 @@ messaging.peerSocket.onmessage = evt => {
     let bruh = grabToken(code.access_token);
     console.log("Success " + bruh);
   } 
+  if (evt.data.key === "rToken" && evt.data.newValue) {
+    let rToken = evt.data.newValue;
+    console.log(rToken);
+  } 
 };
 
 // Message socket opens
