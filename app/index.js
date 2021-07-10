@@ -46,7 +46,3 @@ messaging.peerSocket.onclose = () => {
   console.log("App Socket Closed");
 };
 
-const genAccess = async (rToken) => {
-  let aToken = await grabRefresh(rToken);
-  return aToken.json();
-}
