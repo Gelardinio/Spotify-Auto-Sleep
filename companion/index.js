@@ -1,6 +1,8 @@
 import * as messaging from "messaging";
 import { settingsStorage } from "settings";
-import {grabToken, getter} from "../companion/get-token";
+import {grabToken, getter, grabRefresh} from "../companion/get-token";
+
+let refreshKey;
 
 // Message socket opens
 messaging.peerSocket.onopen = () => {
@@ -11,6 +13,13 @@ messaging.peerSocket.onopen = () => {
 // Message socket closes
 messaging.peerSocket.onclose = () => {
   console.log("Companion Socket Closed");
+};
+
+messaging.peerSocket.onmessage = evt => {
+  if (evt.data.key == "sleep" && evt.data.newValue == "yes") {
+    let pauser = await getter(refreshKey, "PUT", "/player/pause");
+    console.log("Pause status " + pauser);
+  }
 };
 
 // A user changes settings
@@ -32,6 +41,8 @@ settingsStorage.onchange = async (evt) => {
       newValue: token.refresh_token
     }
     sendVal(data);
+    let tokner = await grabRefresh(token.refresh_token);
+    console.log("BRUHHHHHHHHHHHHHHHHHHHHHHHHH" + JSON.stringify(tokner));
     let pauser = await getter(token.access_token, "PUT", "/player/pause");
     console.log(pauser);
     let user = await getter(token.access_token, "GET", "");
@@ -49,6 +60,15 @@ function restoreSettings() {
         newValue: settingsStorage.getItem(key)
       };
       sendVal(data);
+      if (key == "rToken") {
+        let refreshToken = settingsStorage.getItem(key);
+        //setInterval(function(){ 
+        (async () => {
+          let aToken = await grabRefresh(refreshToken);
+          refreshKey = aToken.access_token;
+        })()
+        //}, 5000);
+      }
     }
   }
 }
@@ -59,3 +79,5 @@ function sendVal(data) {
     messaging.peerSocket.send(data);
   }
 }
+
+

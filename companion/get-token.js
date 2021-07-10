@@ -25,6 +25,26 @@ export const grabToken = async function (code) {
 
 }
 
+export const grabRefresh = async function (refreshToken) {
+
+    const tokenParameters = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic ' + 'Yzk1MzFiNGIwNWVmNDU3ZmI1MGMyZGUwNTE5MTg3ZDI6OWNmYTg5YTVlODM1NGQ3MGExNjRmZGQyNWM1YWRjOGI=',
+        },
+        body: encoder({
+            grant_type: "refresh_token",
+            refresh_token: refreshToken,
+        })
+    };
+
+    let resp = await fetch('https://accounts.spotify.com/api/token', tokenParameters);   
+
+    return resp.json();
+
+}
+
 export const getter = async function (token, method, link) {
 
     const accessParams = {
