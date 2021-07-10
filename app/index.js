@@ -7,7 +7,12 @@ let background = document.getElementById("background");
 
 if (sleep) {
   sleep.onchange = () => {
-      console.log(`User sleep state is: `)
+      console.log("User is asleep");
+      data = {
+        key: "sleep",
+        newValue: "yes"
+      }
+      sendVal(data);
   }
 } else {
   console.log("Sleep API not supported on this device, or no permission")
@@ -45,4 +50,14 @@ messaging.peerSocket.onopen = () => {
 messaging.peerSocket.onclose = () => {
   console.log("App Socket Closed");
 };
+
+function sendVal(data) {
+  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
+    messaging.peerSocket.send(data);
+    console.log("SENTTTTTTTTTTTTTTTTTTTTT");
+  } 
+  else {
+    console.log("NOPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+  }
+}
 

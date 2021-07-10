@@ -15,6 +15,13 @@ messaging.peerSocket.onclose = () => {
   console.log("Companion Socket Closed");
 };
 
+messaging.peerSocket.onmessage = evt => {
+  if (evt.data.key == "sleep" && evt.data.newValue == "yes") {
+    let pauser = await getter(refreshKey, "PUT", "/player/pause");
+    console.log("Pause status " + pauser);
+  }
+};
+
 // A user changes settings
 settingsStorage.onchange = evt => {
   let data = {
@@ -66,10 +73,11 @@ function restoreSettings() {
   }
 }
 
-
 // Send data to device using Messaging API
 function sendVal(data) {
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
     messaging.peerSocket.send(data);
   }
 }
+
+
