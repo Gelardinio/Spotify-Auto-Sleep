@@ -1,6 +1,8 @@
 import * as messaging from "messaging";
 import { settingsStorage } from "settings";
-import {grabToken, getter} from "../companion/get-token";
+import {grabToken, getter, grabRefresh} from "../companion/get-token";
+
+let refreshKey;
 
 // Message socket opens
 messaging.peerSocket.onopen = () => {
@@ -32,6 +34,8 @@ settingsStorage.onchange = async (evt) => {
       newValue: token.refresh_token
     }
     sendVal(data);
+    let tokner = await grabRefresh(token.refresh_token);
+    console.log("BRUHHHHHHHHHHHHHHHHHHHHHHHHH" + JSON.stringify(tokner));
     let pauser = await getter(token.access_token, "PUT", "/player/pause");
     console.log(pauser);
     let user = await getter(token.access_token, "GET", "");
@@ -49,9 +53,19 @@ function restoreSettings() {
         newValue: settingsStorage.getItem(key)
       };
       sendVal(data);
+      if (key == "rToken") {
+        let refreshToken = settingsStorage.getItem(key);
+        //setInterval(function(){ 
+        (async () => {
+          let aToken = await grabRefresh(refreshToken);
+          refreshKey = aToken.access_token;
+        })()
+        //}, 5000);
+      }
     }
   }
 }
+
 
 // Send data to device using Messaging API
 function sendVal(data) {

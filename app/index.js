@@ -1,8 +1,17 @@
 import document from "document";
 import * as messaging from "messaging";
-import {grabToken} from "../companion/get-token";
+import {grabToken, grabRefresh} from "../companion/get-token";
+import sleep from "sleep"
 
 let background = document.getElementById("background");
+
+if (sleep) {
+  sleep.onchange = () => {
+      console.log(`User sleep state is: `)
+  }
+} else {
+  console.log("Sleep API not supported on this device, or no permission")
+}
 
 // Message is received
 messaging.peerSocket.onmessage = evt => {
@@ -24,10 +33,9 @@ messaging.peerSocket.onmessage = evt => {
   } 
   if (evt.data.key === "rToken" && evt.data.newValue) {
     let rToken = evt.data.newValue;
-    console.log(rToken);
+    console.log(`NEW VALUE: ${rToken}`);
   } 
 };
-
 // Message socket opens
 messaging.peerSocket.onopen = () => {
   console.log("App Socket Open");
@@ -37,3 +45,8 @@ messaging.peerSocket.onopen = () => {
 messaging.peerSocket.onclose = () => {
   console.log("App Socket Closed");
 };
+
+const genAccess = async (rToken) => {
+  let aToken = await grabRefresh(rToken);
+  return aToken.json();
+}
