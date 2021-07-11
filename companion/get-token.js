@@ -31,7 +31,7 @@ export const grabRefresh = async function (refreshToken) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic ' + 'Yzk1MzFiNGIwNWVmNDU3ZmI1MGMyZGUwNTE5MTg3ZDI6OWNmYTg5YTVlODM1NGQ3MGExNjRmZGQyNWM1YWRjOGI=',
+            'Authorization': 'Basic ' + '',
         },
         body: encoder({
             grant_type: "refresh_token",
