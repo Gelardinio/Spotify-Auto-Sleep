@@ -3,8 +3,6 @@ import * as messaging from "messaging";
 import {grabToken, grabRefresh} from "../companion/get-token";
 import sleep from "sleep"
 
-let background = document.getElementById("background");
-
 if (sleep) {
   sleep.onchange = () => {
       console.log("User is asleep");
@@ -21,24 +19,15 @@ if (sleep) {
 // Message is received
 messaging.peerSocket.onmessage = evt => {
   console.log(`App received: ${JSON.stringify(evt)}`);
-  if (evt.data.key === "color" && evt.data.newValue) {
-    let color = JSON.parse(evt.data.newValue);
-    console.log(`Setting background color: ${color}`);
-    background.style.fill = color;
-  } 
-  if (evt.data.key === "oauth" && evt.data.newValue) {
-    let ouath = evt.data.newValue;
-    console.log(`Setting background oauth: ${ouath}`);
-  } 
   if (evt.data.key === "code" && evt.data.newValue) {
     let code = evt.data.newValue;
     console.log("This is the code: " + code);
-    let bruh = grabToken(code.access_token);
-    console.log("Success " + bruh);
+    let access = grabToken(code.access_token);
+    console.log("Success " + access);
   } 
   if (evt.data.key === "rToken" && evt.data.newValue) {
     let rToken = evt.data.newValue;
-    console.log(`NEW VALUE: ${rToken}`);
+    console.log(`New refresh token: ${rToken}`);
   } 
 };
 // Message socket opens
@@ -54,10 +43,10 @@ messaging.peerSocket.onclose = () => {
 function sendVal(data) {
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
     messaging.peerSocket.send(data);
-    console.log("SENTTTTTTTTTTTTTTTTTTTTT");
+    console.log("Sent");
   } 
   else {
-    console.log("NOPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+    console.log("Error");
   }
 }
 

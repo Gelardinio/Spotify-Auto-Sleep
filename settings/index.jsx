@@ -22,21 +22,6 @@ function mySettings(props) {
             props.settingsStorage.setItem('rToken', '');
           }}
         />
-        <Toggle
-          settingsKey="toggle"
-          label="Toggle Switch"
-        />
-        <ColorSelect
-          settingsKey="color"
-          colors={[
-            {color: "tomato"},
-            {color: "sandybrown"},
-            {color: "#FFD700"},
-            {color: "#ADFF2F"},
-            {color: "deepskyblue"},
-            {color: "plum"}
-          ]}
-        />
       </Section>
     </Page>
   );
