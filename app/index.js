@@ -3,6 +3,10 @@ import * as messaging from "messaging";
 import {grabToken, grabRefresh} from "../companion/get-token";
 import sleep from "sleep"
 
+import { me } from "appbit";
+
+me.appTimeoutEnabled = false;
+
 if (sleep) {
   sleep.onchange = () => {
       console.log("User is asleep");
