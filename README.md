@@ -1,2 +1,2 @@
 # Spotify-Auto-Sleep
-This app communicates with the Fitbit REST Api to pause the user's music after they have fallen asleep. 
+This Fitbit app communicates with the Spotify Web Api to pause the user's music after the fitbit detects that they have fallen asleep. The current Spotify mobile application only allows for set times of when to stop the music. This app relieves the hassle of having to choose times of when you think you will fall asleep. Currently there is no interface. However, the app works just as well without one since no user control is needed. 
